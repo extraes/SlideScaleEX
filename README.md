@@ -8,4 +8,4 @@ IF YOU USE / REFERENCE THIS PROJECT'S SOURCE CODE IN YOUR MOD, PLEASE GIVE ME CR
 Additionally, refer to the license.
 
 Required references for build:
-Assembly-Csharp, Il2Cppmscorelib, MelonLoader, ModThatIsNotMod, UnhollowerBaseLib, UnityEngine.CoreModule, UnityEngine.PhysicsModule
+Assembly-Csharp, Il2Cppmscorelib, MelonLoader, UnhollowerBaseLib, UnityEngine.CoreModule, UnityEngine.PhysicsModule | IF MTINM: ModThatIsNotMod | IF BMT: BoneworksModdingToolkit, EasyMenu
