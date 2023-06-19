@@ -26,8 +26,9 @@ public class Scale : MelonMod {
 	internal static Scale instance;
 
 	public static event Action<Transform> ObjectScaled;
+    public static event Action<Rigidbody> ObjectMassScaled;
 
-	private GameObject cubeBase;
+    private GameObject cubeBase;
 
 	private GameObject lHandObj;
 	private GameObject rHandObj;
@@ -207,32 +208,38 @@ public class Scale : MelonMod {
 			HideSizeText();
         }
 
-        //Check if distance exceeds deadzone, and if both triggers are held
-        if (ExceedsDeadzone(distance) && GetBothTriggersHeld())
-        {
-            float scale = 1 + ((distance - distanceCache) * Prefs.scaleMult); //Calculate scale
+		//Check if distance exceeds deadzone, and if both triggers are held
+		if (ExceedsDeadzone(distance) && GetBothTriggersHeld())
+		{
+			float scale = 1 + ((distance - distanceCache) * Prefs.scaleMult); //Calculate scale
 			float scaleCubed = scale * scale * scale;
-            float scalePre = itemT.localScale.magnitude;
+			float scalePre = itemT.localScale.magnitude;
 			float scalePost;
-            itemT.localScale *= scale; //Set item scale
+			itemT.localScale *= scale; //Set item scale
 			ObjectScaled.InvokeSafeSync(itemT);
-            scalePost = itemT.localScale.magnitude;
+			scalePost = itemT.localScale.magnitude;
 			int hapticPre = HapticLevel(scalePre);
 			int hapticPost = HapticLevel(scalePost);
 
 #if DEBUG
-            Log($"Scaled object - Dist={distance}, DistCache={distanceCache}, Scale={scale}, ScaleMagnitudePre={scalePre}, ScaleMagnitudePost={scalePost}, Haptics=({hapticPre},{hapticPost})");
+			Log($"Scaled object - Dist={distance}, DistCache={distanceCache}, Scale={scale}, ScaleMagnitudePre={scalePre}, ScaleMagnitudePost={scalePost}, Haptics=({hapticPre},{hapticPost})");
 #endif
 
-            //Set mass scale. Cubed to properly scale with the increase in volume.
+			//Set mass scale. Cubed to properly scale with the increase in volume.
 			// Mass = Density * Volume
 			//Objects are scaled by pulling on one axis, giving only a length value.
 			// Volume = Length ^ 3
 			//Substituting this into the mass equation yields
 			// Mass = Density * (Length ^ 3)
-            if (Prefs.scaleMass)
-				foreach (Rigidbody itemRB in itemRBs)
+			if (Prefs.scaleMass)
+			{
+                foreach (Rigidbody itemRB in itemRBs)
+                {
                     itemRB.mass *= scaleCubed;
+					// Callback here for mass sync.
+					ObjectMassScaled.InvokeSafeSync(itemRB);
+                }
+            }
 
 
             if (Prefs.showSizeText)
@@ -295,6 +302,11 @@ public class Scale : MelonMod {
 
 	private void Grab(GameObject grabbedObj, Hand hand) 
 	{
+		// Do a check if the hand is ours, this is for Fusion compatibility/fixing. Reps trigger this event cause they're also rigmanagers.
+		if (hand.manager != Player.rigManager) {
+			return;
+		}
+
 		//Set transform reference
 		Transform currT = grabbedObj.transform;
 
@@ -391,8 +403,14 @@ public class Scale : MelonMod {
 
     private void Ungrab(Hand hand) 
 	{
-		//Unassign hand that ungrabbed
-		if (hand.handedness == Handedness.LEFT)
+        // Do a check if the hand is ours, this is for Fusion compatibility/fixing. Reps trigger this event cause they're also rigmanagers.
+        if (hand.manager != Player.rigManager)
+        {
+            return;
+        }
+
+        //Unassign hand that ungrabbed
+        if (hand.handedness == Handedness.LEFT)
 			lHandObj = null;
 		else
 			rHandObj = null;

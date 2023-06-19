@@ -35,18 +35,15 @@
     <Reference Include="0Harmony">
       <HintPath>..\managed\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="BoneLib">
-      <HintPath>..\managed\BoneLib.dll</HintPath>
-    </Reference>
     <Reference Include="Il2Cppmscorlib, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\managed\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>managed\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="JeviLib">
-      <HintPath>..\managed\JeviLib.dll</HintPath>
+      <HintPath>managed\JeviLib.dll</HintPath>
     </Reference>
     <Reference Include="LabFusion">
-      <HintPath>..\managed\LabFusion.dll</HintPath>
+      <HintPath>managed\LabFusion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,13 +55,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnhollowerBaseLib, Version=0.4.18.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\managed\UnhollowerBaseLib.dll</HintPath>
+      <HintPath>managed\UnhollowerBaseLib.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
