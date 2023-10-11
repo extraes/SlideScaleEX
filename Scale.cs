@@ -93,6 +93,7 @@ public class Scale : MelonMod {
 		string platform = Utilities.IsPlatformQuest() ? "quest" : "pc";
 		string path = $"SlideScale.Resources.lemonmilk_{platform}.bundle";
 		AssetBundle bundle = null;
+		EmbeddedAssembly.LoadAssembly("SlideScale.Resources.SlideScaleFusion.dll");
 		MelonAssembly.Assembly.UseEmbeddedResource(path, (bytes) => bundle = AssetBundle.LoadFromMemory(bytes));
 		sizeTextFont = bundle.LoadAsset("Assets/SlideScale/LEMONMILK-Medium SDF.asset").Cast<TMP_FontAsset>();
 		bundle.hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideAndDontSave;
@@ -304,6 +305,12 @@ public class Scale : MelonMod {
 	{
 		// Do a check if the hand is ours, this is for Fusion compatibility/fixing. Reps trigger this event cause they're also rigmanagers.
 		if (hand.manager != Player.rigManager) {
+			return;
+		}
+
+		// Physics rig is present, this means we are scaling a Rigmanagers RB! This is bad!
+		if (grabbedObj.GetComponentInParent<PhysicsRig>())
+		{
 			return;
 		}
 

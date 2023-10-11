@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstForce.cs" />
+    <Compile Include="EmbeddedAssembly.cs" />
     <Compile Include="Prefs.cs" />
     <Compile Include="Scale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,7 +105,7 @@
     <EmbeddedResource Include="Resources\lemonmilk_quest.bundle" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\FusionModule.dll" />
+    <EmbeddedResource Include="Resources\SlideScaleFusion.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
